@@ -2,9 +2,12 @@ import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { logIn } from '../slices/authSlice.js';
 
-const LoginPage = ({ setToken }) => {
+const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [authError, setAuthError] = useState(null);
   return (
     <div className="container">
@@ -22,8 +25,7 @@ const LoginPage = ({ setToken }) => {
           return axios.post('/api/v1/login', values)
             .then((response) => {
               const { token } = response.data;
-              localStorage.setItem('token', token);
-              setToken(token);
+              dispatch(logIn(token));
               navigate('/');
             })
             .catch(() => { setAuthError('Неверные имя пользователя или пароль'); });
