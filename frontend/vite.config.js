@@ -8,7 +8,11 @@ export default defineConfig({
     proxy:{
       '/api/':{
         target: 'http://localhost:5001'
-      }
+      },
+      '/socket.io': {
+        target: 'http://localhost:5001',
+        ws: true,
+      },
     }
   }
 })
