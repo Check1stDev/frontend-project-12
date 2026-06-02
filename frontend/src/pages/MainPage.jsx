@@ -3,8 +3,10 @@ import { io } from 'socket.io-client';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
-  setChannels, setMessages, setCurrentChannelId, addMessage,
+  setChannels, setMessages, setCurrentChannelId, addMessage, addChannel,
 } from '../slices/chatSlice';
+import { openModal } from '../slices/modalSlice';
+import ModalContainer from '../components/modals/ModalContainer';
 
 const MainPage = () => {
   const token = useSelector((store) => store.auth.token);
@@ -15,6 +17,7 @@ const MainPage = () => {
   const channels = useSelector((store) => store.chat.channels);
   const messages = useSelector((store) => store.chat.messages);
   const currentChannel = useSelector((store) => store.chat.currentChannelId);
+  const modal = useSelector((store) => store.modal);
 
   const addMessageRequest = (newMessage) => axios.post('/api/v1/messages', newMessage, {
     headers: {
@@ -35,6 +38,9 @@ const MainPage = () => {
     });
     socket.on('newMessage', (payload) => {
       dispatch(addMessage(payload));
+    });
+    socket.on('newChannel', (payload) => {
+      dispatch(addChannel(payload));
     });
 
     const fetchData = () => {
@@ -78,7 +84,11 @@ const MainPage = () => {
     <div className="container my-4">
       <div className="row border rounded overflow-hidden">
         <div className="col-3 bg-light p-3">
-          <h2>Каналы</h2>
+          <div className="d-flex justify-content-between align-items-center">
+            <h2>Каналы</h2>
+            <button type="button" onClick={() => dispatch(openModal({ type: 'addChannel', item: null }))}>+</button>
+            <ModalContainer />
+          </div>
           <ul className="list-group">
             {channels.map((channel) => (
               <li className="list-group-item p-0" key={channel.id}>
