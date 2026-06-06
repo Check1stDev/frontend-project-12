@@ -31,7 +31,9 @@ const LoginPage = () => {
               dispatch(logIn(token));
               navigate('/');
             })
-            .catch(() => { setAuthError(t('login.invalidCredentials')); });
+            .catch(() => {
+              setAuthError(t('login.errors.invalidCredentials'));
+            });
         }}
       >
         <Form>

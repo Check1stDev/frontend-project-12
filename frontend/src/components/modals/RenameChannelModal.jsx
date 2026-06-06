@@ -5,6 +5,7 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { closeModal } from '../../slices/modalSlice';
 
 const RenameChannelModal = () => {
@@ -20,6 +21,7 @@ const RenameChannelModal = () => {
         Authorization: `Bearer ${token}`,
       },
     }).then(() => {
+      toast.success(t('notifications.channelRenamed'));
       dispatch(closeModal());
     });
   };

@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import {
   setChannels,
   setMessages,
@@ -66,6 +67,8 @@ const MainPage = () => {
         dispatch(setChannels(loadedChannels));
         const generalChannel = loadedChannels.find((channel) => channel.name === 'general');
         dispatch(setCurrentChannelId(generalChannel.id));
+      }).catch(() => {
+        toast.error(t('notifications.networkError'));
       });
 
       axios.get('/api/v1/messages', {
@@ -74,6 +77,8 @@ const MainPage = () => {
         },
       }).then((response) => {
         dispatch(setMessages(response.data));
+      }).catch(() => {
+        toast.error(t('notifications.networkError'));
       });
     };
     const runFetch = token ? fetchData : () => null;
@@ -82,7 +87,7 @@ const MainPage = () => {
     return () => {
       socket.disconnect();
     };
-  }, [token, dispatch]);
+  }, [token, dispatch, t]);
   const sendMessage = (e) => {
     e.preventDefault();
     const trimmedMessage = messageText.trim();

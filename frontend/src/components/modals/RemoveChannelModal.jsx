@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { closeModal } from '../../slices/modalSlice';
 import { setCurrentChannelId } from '../../slices/chatSlice';
 
@@ -17,6 +18,7 @@ const RemoveChannelModal = () => {
       },
     }).then(() => {
       dispatch(closeModal());
+      toast.success(t('notifications.channelRemoved'));
       dispatch(setCurrentChannelId(1));
     });
   };

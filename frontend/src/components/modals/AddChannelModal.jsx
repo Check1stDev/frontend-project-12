@@ -5,6 +5,7 @@ import {
 } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { closeModal } from '../../slices/modalSlice';
 import { setCurrentChannelId } from '../../slices/chatSlice';
 
@@ -38,6 +39,7 @@ const AddChannelModal = () => {
       })
         .then((response) => {
           const channel = response.data;
+          toast.success(t('notifications.channelCreated'));
           dispatch(setCurrentChannelId(channel.id));
           dispatch(closeModal());
         })}

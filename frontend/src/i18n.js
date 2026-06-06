@@ -85,6 +85,13 @@ const resources = {
         remove: 'Удалить',
         rename: 'Переименовать',
       },
+
+      notifications: {
+        channelCreated: 'Канал создан',
+        channelRenamed: 'Канал переименован',
+        channelRemoved: 'Канал удалён',
+        networkError: 'Ошибка соединения. Проверьте подключение к интернету',
+      },
     },
   },
 };
