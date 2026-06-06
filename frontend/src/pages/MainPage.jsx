@@ -3,7 +3,7 @@ import { io } from 'socket.io-client';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
-  setChannels, setMessages, setCurrentChannelId, addMessage, addChannel,
+  setChannels, setMessages, setCurrentChannelId, addMessage, addChannel, removeChannel, renameChannel,
 } from '../slices/chatSlice';
 import { openModal } from '../slices/modalSlice';
 import ModalContainer from '../components/modals/ModalContainer';
@@ -17,7 +17,6 @@ const MainPage = () => {
   const channels = useSelector((store) => store.chat.channels);
   const messages = useSelector((store) => store.chat.messages);
   const currentChannel = useSelector((store) => store.chat.currentChannelId);
-  const modal = useSelector((store) => store.modal);
 
   const addMessageRequest = (newMessage) => axios.post('/api/v1/messages', newMessage, {
     headers: {
@@ -41,6 +40,12 @@ const MainPage = () => {
     });
     socket.on('newChannel', (payload) => {
       dispatch(addChannel(payload));
+    });
+    socket.on('removeChannel', (payload) => {
+      dispatch(removeChannel(payload));
+    });
+    socket.on('renameChannel', (payload) => {
+      dispatch(renameChannel(payload));
     });
 
     const fetchData = () => {
@@ -91,8 +96,22 @@ const MainPage = () => {
           </div>
           <ul className="list-group">
             {channels.map((channel) => (
-              <li className="list-group-item p-0" key={channel.id}>
-                <button className="btn btn-light w-100 text-start" type="button" onClick={() => dispatch(setCurrentChannelId(channel.id))}>{channel.name}</button>
+              <li className="list-group-item p-0 d-flex" key={channel.id}>
+                <button className="btn btn-light w-100 text-start" type="button" onClick={() => dispatch(setCurrentChannelId(channel.id))}># {channel.name}</button>
+                {channel.removable && (
+                <div className="dropdown">
+                  <button
+                    type="button"
+                    className="btn btn-secondary dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  />
+                  <ul className="dropdown-menu">
+                    <li><button type="button" className="dropdown-item" onClick={() => dispatch(openModal({ type: 'renameChannel', item: channel }))}>Переименовать</button></li>
+                    <li><button type="button" className="dropdown-item" onClick={() => dispatch(openModal({ type: 'removeChannel', item: channel }))}>Удалить</button></li>
+                  </ul>
+                </div>
+                )}
               </li>
             ))}
           </ul>
