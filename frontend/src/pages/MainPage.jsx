@@ -15,6 +15,9 @@ import {
 } from '../slices/chatSlice';
 import { openModal } from '../slices/modalSlice';
 import ModalContainer from '../components/modals/ModalContainer';
+import filter from 'leo-profanity';
+
+filter.add(filter.getDictionary('ru'));
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -91,8 +94,9 @@ const MainPage = () => {
   const sendMessage = (e) => {
     e.preventDefault();
     const trimmedMessage = messageText.trim();
+    const cleanMessage = filter.clean(trimmedMessage);
     const newMessage = {
-      body: trimmedMessage,
+      body: cleanMessage,
       channelId: currentChannel,
       username,
     };

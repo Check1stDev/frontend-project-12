@@ -8,6 +8,9 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { closeModal } from '../../slices/modalSlice';
 import { setCurrentChannelId } from '../../slices/chatSlice';
+import filter from 'leo-profanity';
+
+filter.add(filter.getDictionary('ru'));
 
 const AddChannelModal = () => {
   const dispatch = useDispatch();
@@ -23,7 +26,7 @@ const AddChannelModal = () => {
       .test(
         'Проверка уникальности',
         t('validation.channelNameUnique'),
-        (value) => !channels.some((channel) => channel.name === value),
+        (value) => !channels.some((channel) => channel.name === filter.clean(value)),
       ),
   });
   return (
@@ -32,7 +35,11 @@ const AddChannelModal = () => {
         name: '',
       }}
       validationSchema={validationSchema}
-      onSubmit={(values) => axios.post('/api/v1/channels', values, {
+      
+      onSubmit={(values) => {
+        const cleanName = filter.clean(values.name);
+        
+        axios.post('/api/v1/channels', { name: cleanName }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -43,6 +50,7 @@ const AddChannelModal = () => {
           dispatch(setCurrentChannelId(channel.id));
           dispatch(closeModal());
         })}
+    }
     >
       <Form>
         <Field name="name" placeholder={t('modals.addChannel.inputLabel')} />
