@@ -18,9 +18,9 @@ const RenameChannelModal = () => {
   const channels = useSelector((store) => store.chat.channels);
   const { t } = useTranslation();
 
-  const renameChannel = (item, newName) => {
-    const cleanNewName = filter.clean(newName);
-    axios.patch(`/api/v1/channels/${item.id}`, cleanNewName, {
+  const renameChannel = (item, values) => {
+    const cleanNewName = filter.clean(values.name);
+    axios.patch(`/api/v1/channels/${item.id}`, { name: cleanNewName }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -50,7 +50,8 @@ const RenameChannelModal = () => {
       onSubmit={(values) => renameChannel(modalItem, values)}
     >
       <Form>
-        <Field name="name" placeholder={t('modals.renameChannel.inputLabel')} />
+        <label htmlFor="rename-channel-name">{t('modals.renameChannel.inputLabel')}</label>
+        <Field id="rename-channel-name" name="name" placeholder={t('modals.renameChannel.inputLabel')} />
         <ErrorMessage name="name" component="div" />
         <button type="submit">{t('modals.renameChannel.submit')}</button>
         <button type="button" onClick={() => dispatch(closeModal())}>{t('modals.renameChannel.cancel')}</button>

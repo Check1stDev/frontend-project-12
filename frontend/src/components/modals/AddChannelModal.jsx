@@ -52,7 +52,8 @@ const AddChannelModal = () => {
       }}
     >
       <Form>
-        <Field name="name" placeholder={t('modals.addChannel.inputLabel')} />
+        <label htmlFor="name">{t('modals.addChannel.inputLabel')}</label>
+        <Field id="name" name="name" placeholder={t('modals.addChannel.inputLabel')} />
         <ErrorMessage name="name" component="div" />
         <button type="submit">{t('modals.addChannel.submit')}</button>
         <button type="button" onClick={() => dispatch(closeModal())}>{t('modals.addChannel.cancel')}</button>
