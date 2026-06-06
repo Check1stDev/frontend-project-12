@@ -6,8 +6,8 @@ import {
 } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { closeModal } from '../../slices/modalSlice';
 import filter from 'leo-profanity';
+import { closeModal } from '../../slices/modalSlice';
 
 filter.add(filter.getDictionary('ru'));
 
@@ -19,8 +19,8 @@ const RenameChannelModal = () => {
   const { t } = useTranslation();
 
   const renameChannel = (item, newName) => {
-    const cleanNewName = filter.clean(newName)
-    axios.patch(`/api/v1/channels/${item.id}`, newName, {
+    const cleanNewName = filter.clean(newName);
+    axios.patch(`/api/v1/channels/${item.id}`, cleanNewName, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

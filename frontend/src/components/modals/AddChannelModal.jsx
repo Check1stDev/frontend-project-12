@@ -6,9 +6,9 @@ import {
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import { closeModal } from '../../slices/modalSlice';
 import { setCurrentChannelId } from '../../slices/chatSlice';
-import filter from 'leo-profanity';
 
 filter.add(filter.getDictionary('ru'));
 
@@ -35,22 +35,21 @@ const AddChannelModal = () => {
         name: '',
       }}
       validationSchema={validationSchema}
-      
       onSubmit={(values) => {
         const cleanName = filter.clean(values.name);
-        
+
         axios.post('/api/v1/channels', { name: cleanName }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => {
-          const channel = response.data;
-          toast.success(t('notifications.channelCreated'));
-          dispatch(setCurrentChannelId(channel.id));
-          dispatch(closeModal());
-        })}
-    }
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((response) => {
+            const channel = response.data;
+            toast.success(t('notifications.channelCreated'));
+            dispatch(setCurrentChannelId(channel.id));
+            dispatch(closeModal());
+          });
+      }}
     >
       <Form>
         <Field name="name" placeholder={t('modals.addChannel.inputLabel')} />

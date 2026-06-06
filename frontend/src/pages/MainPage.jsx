@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import {
   setChannels,
   setMessages,
@@ -15,7 +16,6 @@ import {
 } from '../slices/chatSlice';
 import { openModal } from '../slices/modalSlice';
 import ModalContainer from '../components/modals/ModalContainer';
-import filter from 'leo-profanity';
 
 filter.add(filter.getDictionary('ru'));
 

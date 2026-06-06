@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { closeModal } from '../../slices/modalSlice';
 import { setCurrentChannelId } from '../../slices/chatSlice';
 
-
 const RemoveChannelModal = () => {
   const dispatch = useDispatch();
   const token = useSelector((store) => store.auth.token);
