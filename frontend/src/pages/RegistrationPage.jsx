@@ -52,12 +52,18 @@ const RegistrationPage = () => {
         }}
       >
         <Form>
-          <Field name="username" />
+          <label htmlFor="username">{t('signup.username')}</label>
+          <Field id="username" name="username" />
           <ErrorMessage name="username" component="div" />
-          <Field name="password" type="password" />
+
+          <label htmlFor="password">{t('signup.password')}</label>
+          <Field id="password" name="password" type="password" />
           <ErrorMessage name="password" component="div" />
-          <Field name="confirmPassword" type="password" />
+
+          <label htmlFor="confirmPassword">{t('signup.confirmPassword')}</label>
+          <Field id="confirmPassword" name="confirmPassword" type="password" />
           <ErrorMessage name="confirmPassword" component="div" />
+
           <button type="submit">{t('signup.submit')}</button>
           <button type="button" onClick={() => navigate('/login')}>{t('signup.cancel')}</button>
         </Form>
