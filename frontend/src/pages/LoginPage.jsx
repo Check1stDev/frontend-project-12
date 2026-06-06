@@ -37,8 +37,12 @@ const LoginPage = () => {
         }}
       >
         <Form>
-          <Field name="username" placeholder={t('login.username')} />
-          <Field name="password" type="password" placeholder={t('login.password')} />
+          <label htmlFor="username">{t('login.username')}</label>
+          <Field id="username" name="username" placeholder={t('login.username')} />
+
+          <label htmlFor="password">{t('login.password')}</label>
+          <Field id="password" name="password" type="password" placeholder={t('login.password')} />
+
           <button type="submit">{t('login.submit')}</button>
         </Form>
       </Formik>

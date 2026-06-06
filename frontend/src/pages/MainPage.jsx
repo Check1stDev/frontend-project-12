@@ -115,7 +115,7 @@ const MainPage = () => {
             {channels.map((channel) => (
               <li className="list-group-item p-0 d-flex" key={channel.id}>
                 <button className="btn btn-light w-100 text-start" type="button" onClick={() => dispatch(setCurrentChannelId(channel.id))}>
-                  #
+                  <span aria-hidden="true"># </span>
                   {channel.name}
                 </button>
                 {channel.removable && (
@@ -126,7 +126,9 @@ const MainPage = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                     aria-label={t('buttons.channelManagement')}
-                  />
+                  >
+                    <span className="visually-hidden">{t('buttons.channelManagement')}</span>
+                  </button>
                   <ul className="dropdown-menu">
                     <li><button type="button" className="dropdown-item" onClick={() => dispatch(openModal({ type: 'renameChannel', item: channel }))}>{t('buttons.rename')}</button></li>
                     <li><button type="button" className="dropdown-item" onClick={() => dispatch(openModal({ type: 'removeChannel', item: channel }))}>{t('buttons.remove')}</button></li>
@@ -155,6 +157,7 @@ const MainPage = () => {
               className="form-control"
               value={messageText}
               placeholder={t('chat.messagePlaceholder')}
+              aria-label="Новое сообщение"
               onChange={(input) => setMessageText(input.target.value)}
             />
             <button type="submit" className="btn btn-primary">{t('chat.send')}</button>
