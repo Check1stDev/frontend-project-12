@@ -108,7 +108,7 @@ const MainPage = () => {
         <div className="col-3 bg-light p-3">
           <div className="d-flex justify-content-between align-items-center">
             <h2>{t('chat.channels')}</h2>
-            <button type="button" onClick={() => dispatch(openModal({ type: 'addChannel', item: null }))}>+</button>
+            <button type="button" onClick={() => dispatch(openModal({ type: 'addChannel', item: null }))}>{t('buttons.add')}</button>
             <ModalContainer />
           </div>
           <ul className="list-group">
@@ -125,10 +125,11 @@ const MainPage = () => {
                     className="btn btn-secondary dropdown-toggle"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
+                    aria-label={t('buttons.channelManagement')}
                   />
                   <ul className="dropdown-menu">
-                    <li><button type="button" className="dropdown-item" onClick={() => dispatch(openModal({ type: 'renameChannel', item: channel }))}>Переименовать</button></li>
-                    <li><button type="button" className="dropdown-item" onClick={() => dispatch(openModal({ type: 'removeChannel', item: channel }))}>Удалить</button></li>
+                    <li><button type="button" className="dropdown-item" onClick={() => dispatch(openModal({ type: 'renameChannel', item: channel }))}>{t('buttons.rename')}</button></li>
+                    <li><button type="button" className="dropdown-item" onClick={() => dispatch(openModal({ type: 'removeChannel', item: channel }))}>{t('buttons.remove')}</button></li>
                   </ul>
                 </div>
                 )}

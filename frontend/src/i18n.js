@@ -37,12 +37,12 @@ const resources = {
 
       validation: {
         required: 'Поле не может быть пустым',
-        usernameMin: 'Слишком короткое имя',
-        usernameMax: 'Слишком длинное имя',
-        passwordMin: 'Слишком короткий пароль',
+        usernameMin: 'От 3 до 20 символов',
+        usernameMax: 'От 3 до 20 символов',
+        passwordMin: 'Не менее 6 символов',
         passwordsMustMatch: 'Пароли должны совпадать',
-        channelNameMin: 'Слишком короткое название канала',
-        channelNameMax: 'Слишком длинное название канала',
+        channelNameMin: 'От 3 до 20 символов',
+        channelNameMax: 'От 3 до 20 символов',
         channelNameUnique: 'Канал с таким именем уже существует',
       },
 
@@ -84,13 +84,14 @@ const resources = {
         add: '+',
         remove: 'Удалить',
         rename: 'Переименовать',
+        channelManagement: 'Управление каналом',
       },
 
       notifications: {
         channelCreated: 'Канал создан',
         channelRenamed: 'Канал переименован',
         channelRemoved: 'Канал удалён',
-        networkError: 'Ошибка соединения. Проверьте подключение к интернету',
+        networkError: 'Ошибка соединения',
       },
     },
   },
