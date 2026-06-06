@@ -28,7 +28,7 @@ const LoginPage = () => {
           return axios.post('/api/v1/login', values)
             .then((response) => {
               const { token } = response.data;
-              dispatch(logIn(token));
+              dispatch(logIn(response.data));
               navigate('/');
             })
             .catch(() => {
