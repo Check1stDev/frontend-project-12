@@ -22,8 +22,5 @@
   },
   "engines": {
     "node": "20.x"
-  },
-  "devDependencies": {
-    "start-server": "^0.0.4"
   }
 }
