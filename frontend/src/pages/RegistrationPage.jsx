@@ -44,8 +44,7 @@ const RegistrationPage = () => {
           setRegError(null);
           return axios.post('/api/v1/signup', { username: values.username, password: values.password })
             .then((response) => {
-              const { token } = response.data;
-              dispatch(logIn(token));
+              dispatch(logIn(response.data));
               navigate('/');
             })
             .catch(() => { setRegError(t('signup.errors.userExists')); });

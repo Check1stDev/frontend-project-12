@@ -29,7 +29,6 @@ const MainPage = () => {
   const currentChannel = useSelector((store) => store.chat.currentChannelId);
   const token = useSelector((store) => store.auth.token);
   const username = useSelector((store) => store.auth.username);
-  
 
   const addMessageRequest = (newMessage) => axios.post('/api/v1/messages', newMessage, {
     headers: {

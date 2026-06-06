@@ -27,7 +27,6 @@ const LoginPage = () => {
           setAuthError(null);
           return axios.post('/api/v1/login', values)
             .then((response) => {
-              const { token } = response.data;
               dispatch(logIn(response.data));
               navigate('/');
             })
