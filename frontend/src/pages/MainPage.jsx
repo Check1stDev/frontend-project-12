@@ -2,21 +2,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
-  setChannels, setMessages, setCurrentChannelId, addMessage, addChannel, removeChannel, renameChannel,
+  setChannels,
+  setMessages,
+  setCurrentChannelId,
+  addMessage,
+  addChannel,
+  removeChannel,
+  renameChannel,
 } from '../slices/chatSlice';
 import { openModal } from '../slices/modalSlice';
 import ModalContainer from '../components/modals/ModalContainer';
 
 const MainPage = () => {
-  const token = useSelector((store) => store.auth.token);
-  const username = useSelector((store) => store.auth.username);
   const dispatch = useDispatch();
   const [messageText, setMessageText] = useState('');
+  const { t } = useTranslation();
 
   const channels = useSelector((store) => store.chat.channels);
   const messages = useSelector((store) => store.chat.messages);
   const currentChannel = useSelector((store) => store.chat.currentChannelId);
+  const token = useSelector((store) => store.auth.token);
+  const username = useSelector((store) => store.auth.username);
 
   const addMessageRequest = (newMessage) => axios.post('/api/v1/messages', newMessage, {
     headers: {
@@ -90,7 +98,7 @@ const MainPage = () => {
       <div className="row border rounded overflow-hidden">
         <div className="col-3 bg-light p-3">
           <div className="d-flex justify-content-between align-items-center">
-            <h2>Каналы</h2>
+            <h2>{t('chat.channels')}</h2>
             <button type="button" onClick={() => dispatch(openModal({ type: 'addChannel', item: null }))}>+</button>
             <ModalContainer />
           </div>
@@ -120,7 +128,7 @@ const MainPage = () => {
           </ul>
         </div>
         <div className="col p-3">
-          <h2>Сообщения</h2>
+          <h2>{t('chat.messages')}</h2>
           <div className="d-flex flex-column gap-3">
             {messages
               .filter((message) => message.channelId === currentChannel)
@@ -132,8 +140,14 @@ const MainPage = () => {
               ))}
           </div>
           <form className="d-flex gap-2 mt-3" onSubmit={sendMessage}>
-            <input type="text" className="form-control" value={messageText} onChange={(input) => setMessageText(input.target.value)} />
-            <button type="submit" className="btn btn-primary">Отправить</button>
+            <input
+              type="text"
+              className="form-control"
+              value={messageText}
+              placeholder={t('chat.messagePlaceholder')}
+              onChange={(input) => setMessageText(input.target.value)}
+            />
+            <button type="submit" className="btn btn-primary">{t('chat.send')}</button>
           </form>
         </div>
       </div>

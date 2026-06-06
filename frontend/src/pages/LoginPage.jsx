@@ -3,15 +3,18 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { logIn } from '../slices/authSlice.js';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [authError, setAuthError] = useState(null);
+  const { t } = useTranslation();
+
   return (
     <div className="container">
-      <h1>Авторизация</h1>
+      <h1>{t('login.title')}</h1>
       {authError && (
       <div className="alert alert-danger" role="alert">{authError}</div>
       )}
@@ -28,18 +31,18 @@ const LoginPage = () => {
               dispatch(logIn(token));
               navigate('/');
             })
-            .catch(() => { setAuthError('Неверные имя пользователя или пароль'); });
+            .catch(() => { setAuthError(t('login.invalidCredentials')); });
         }}
       >
         <Form>
-          <Field name="username" />
-          <Field name="password" type="password" />
-          <button type="submit">Войти</button>
+          <Field name="username" placeholder={t('login.username')} />
+          <Field name="password" type="password" placeholder={t('login.password')} />
+          <button type="submit">{t('login.submit')}</button>
         </Form>
       </Formik>
       <div>
-        <p>Нет аккаунта?</p>
-        <Link to="/signup">Регистрация</Link>
+        <p>{t('login.signupText')}</p>
+        <Link to="/signup">{t('login.signupLink')}</Link>
       </div>
     </div>
   );

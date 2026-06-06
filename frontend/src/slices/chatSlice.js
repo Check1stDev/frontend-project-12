@@ -35,8 +35,10 @@ const chatSlice = createSlice({
     }),
     removeChannel: (state, action) => {
       const stateNew = { ...state };
-      stateNew.channels = stateNew.channels.filter((channel) => channel.id !== action.payload.id);
-      stateNew.messages = stateNew.messages.filter((message) => message.channelId !== action.payload.id);
+      stateNew.channels = stateNew.channels
+        .filter((channel) => channel.id !== action.payload.id);
+      stateNew.messages = stateNew.messages
+        .filter((message) => message.channelId !== action.payload.id);
       return stateNew;
     },
     renameChannel: (state, action) => {

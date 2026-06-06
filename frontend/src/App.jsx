@@ -13,7 +13,7 @@ const App = () => {
   const token = useSelector((store) => store.auth.token);
   return (
     <BrowserRouter>
-    <Header />
+      <Header />
       <Routes>
         <Route path="/" element={token ? <MainPage /> : <Navigate to="/login" />} />
         <Route path="/login" element={token ? <Navigate to="/" /> : <LoginPage />} />

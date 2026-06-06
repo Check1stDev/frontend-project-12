@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { closeModal } from '../../slices/modalSlice';
 
 const RenameChannelModal = () => {
@@ -11,6 +12,7 @@ const RenameChannelModal = () => {
   const token = useSelector((store) => store.auth.token);
   const modalItem = useSelector((store) => store.modal.item);
   const channels = useSelector((store) => store.chat.channels);
+  const { t } = useTranslation();
 
   const renameChannel = (item, newName) => {
     axios.patch(`/api/v1/channels/${item.id}`, newName, {
@@ -23,13 +25,14 @@ const RenameChannelModal = () => {
   };
   const validationSchema = Yup.object({
     name: Yup.string()
-      .min(3, 'Слишком короткое название канала')
-      .max(20, 'Слишком длинное название канала')
-      .required('Поле не может быть пустым')
+      .min(3, t('validation.channelNameMin'))
+      .max(20, t('validation.channelNameMax'))
+      .required(t('validation.required'))
       .test(
         'Проверка уникальности',
-        'Канал с таким именем уже существует',
-        (value) => !channels.some((channel) => channel.name === value && channel.id !== modalItem.id),
+        t('validation.channelNameUnique'),
+        (value) => !channels.some((channel) => channel.name === value
+          && channel.id !== modalItem.id),
       ),
   });
   return (
@@ -41,10 +44,10 @@ const RenameChannelModal = () => {
       onSubmit={(values) => renameChannel(modalItem, values)}
     >
       <Form>
-        <Field name="name" />
+        <Field name="name" placeholder={t('modals.renameChannel.inputLabel')} />
         <ErrorMessage name="name" component="div" />
-        <button type="submit">Отправить</button>
-        <button type="button" onClick={() => dispatch(closeModal())}>Отменить</button>
+        <button type="submit">{t('modals.renameChannel.submit')}</button>
+        <button type="button" onClick={() => dispatch(closeModal())}>{t('modals.renameChannel.cancel')}</button>
       </Form>
     </Formik>
   );

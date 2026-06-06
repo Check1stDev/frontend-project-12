@@ -4,6 +4,7 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import { closeModal } from '../../slices/modalSlice';
 import { setCurrentChannelId } from '../../slices/chatSlice';
 
@@ -11,14 +12,16 @@ const AddChannelModal = () => {
   const dispatch = useDispatch();
   const token = useSelector((store) => store.auth.token);
   const channels = useSelector((store) => store.chat.channels);
+  const { t } = useTranslation();
+
   const validationSchema = Yup.object({
     name: Yup.string()
-      .min(3, 'Слишком короткое название канала')
-      .max(20, 'Слишком длинное название канала')
-      .required('Поле не может быть пустым')
+      .min(3, t('validation.channelNameMin'))
+      .max(20, t('validation.channelNameMax'))
+      .required(t('validation.required'))
       .test(
         'Проверка уникальности',
-        'Канал с таким именем уже существует',
+        t('validation.channelNameUnique'),
         (value) => !channels.some((channel) => channel.name === value),
       ),
   });
@@ -40,10 +43,10 @@ const AddChannelModal = () => {
         })}
     >
       <Form>
-        <Field name="name" />
+        <Field name="name" placeholder={t('modals.addChannel.inputLabel')} />
         <ErrorMessage name="name" component="div" />
-        <button type="submit">Отправить</button>
-        <button type="button" onClick={() => dispatch(closeModal())}>Отменить</button>
+        <button type="submit">{t('modals.addChannel.submit')}</button>
+        <button type="button" onClick={() => dispatch(closeModal())}>{t('modals.addChannel.cancel')}</button>
       </Form>
     </Formik>
   );
