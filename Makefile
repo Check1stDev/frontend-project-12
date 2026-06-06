@@ -6,4 +6,4 @@ build:
 	cd frontend && npm run build
 
 start:
-	npx start-server -s ./frontend/dist -p 8080
+	./node_modules/.bin/start-server -s ./frontend/dist -p 5001
