@@ -97,7 +97,10 @@ const MainPage = () => {
           <ul className="list-group">
             {channels.map((channel) => (
               <li className="list-group-item p-0 d-flex" key={channel.id}>
-                <button className="btn btn-light w-100 text-start" type="button" onClick={() => dispatch(setCurrentChannelId(channel.id))}># {channel.name}</button>
+                <button className="btn btn-light w-100 text-start" type="button" onClick={() => dispatch(setCurrentChannelId(channel.id))}>
+                  #
+                  {channel.name}
+                </button>
                 {channel.removable && (
                 <div className="dropdown">
                   <button

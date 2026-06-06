@@ -1,6 +1,6 @@
 import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../slices/authSlice.js';
@@ -37,6 +37,10 @@ const LoginPage = () => {
           <button type="submit">Войти</button>
         </Form>
       </Formik>
+      <div>
+        <p>Нет аккаунта?</p>
+        <Link to="/signup">Регистрация</Link>
+      </div>
     </div>
   );
 };
