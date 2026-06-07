@@ -10,20 +10,27 @@ const Header = () => {
   const { t } = useTranslation();
 
   return (
-    <>
-      <Link to="/">{t('header.title')}</Link>
-      {token && (
-      <button
-        type="button"
-        onClick={() => {
-          dispatch(logOut());
-          navigate('/login');
-        }}
-      >
-        {t('header.logout')}
-      </button>
-      )}
-    </>
+    <header className="navbar app-header">
+      <div className="app-header__glow" />
+      <div className="container app-header__inner">
+        <Link className="navbar-brand app-header__brand" to="/">
+          <span className="app-header__brand-mark">#</span>
+          <span>{t('header.title')}</span>
+        </Link>
+        {token && (
+        <button
+          className="btn app-header__logout"
+          type="button"
+          onClick={() => {
+            dispatch(logOut());
+            navigate('/login');
+          }}
+        >
+          {t('header.logout')}
+        </button>
+        )}
+      </div>
+    </header>
   );
 };
 

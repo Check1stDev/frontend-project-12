@@ -24,14 +24,25 @@ const RemoveChannelModal = () => {
   };
 
   return (
-    <div>
-      <h2>
-        {t('modals.removeChannel.title')}
-      </h2>
-      <h3>{modalItem.name}</h3>
-      <p>{t('modals.removeChannel.body')}</p>
-      <button type="button" onClick={() => deleteChannel(modalItem)}>{t('modals.removeChannel.submit')}</button>
-      <button type="button" onClick={() => dispatch(closeModal())}>{t('modals.removeChannel.cancel')}</button>
+    <div className="cyber-modal-panel">
+      <div className="cyber-modal-header">
+        <h2 className="cyber-modal-title">{t('modals.removeChannel.title')}</h2>
+        <p className="cyber-modal-subtitle">Это действие нельзя отменить</p>
+      </div>
+
+      <div className="cyber-modal-body">
+        <span className="cyber-modal-channel-name">
+          #
+          {' '}
+          {modalItem.name}
+        </span>
+        <p className="mb-0">{t('modals.removeChannel.body')}</p>
+      </div>
+
+      <div className="cyber-modal-footer">
+        <button className="btn cyber-btn-secondary" type="button" onClick={() => dispatch(closeModal())}>{t('modals.removeChannel.cancel')}</button>
+        <button className="btn cyber-btn-danger" type="button" onClick={() => deleteChannel(modalItem)}>{t('modals.removeChannel.submit')}</button>
+      </div>
     </div>
   );
 };

@@ -49,12 +49,22 @@ const RenameChannelModal = () => {
       validationSchema={validationSchema}
       onSubmit={(values) => renameChannel(modalItem, values)}
     >
-      <Form>
-        <label htmlFor="rename-channel-name">{t('modals.renameChannel.inputLabel')}</label>
-        <Field id="rename-channel-name" name="name" placeholder={t('modals.renameChannel.inputLabel')} />
-        <ErrorMessage name="name" component="div" />
-        <button type="submit">{t('modals.renameChannel.submit')}</button>
-        <button type="button" onClick={() => dispatch(closeModal())}>{t('modals.renameChannel.cancel')}</button>
+      <Form className="cyber-modal-form">
+        <div className="cyber-modal-header">
+          <h2 className="cyber-modal-title">{t('modals.renameChannel.title')}</h2>
+          <p className="cyber-modal-subtitle">Обновите название канала</p>
+        </div>
+
+        <div className="cyber-modal-body">
+          <label className="cyber-modal-label" htmlFor="rename-channel-name">{t('modals.renameChannel.inputLabel')}</label>
+          <Field className="cyber-modal-input" id="rename-channel-name" name="name" placeholder={t('modals.renameChannel.inputLabel')} />
+          <ErrorMessage className="cyber-modal-error" name="name" component="div" />
+        </div>
+
+        <div className="cyber-modal-footer">
+          <button className="btn cyber-btn-secondary" type="button" onClick={() => dispatch(closeModal())}>{t('modals.renameChannel.cancel')}</button>
+          <button className="btn cyber-btn-primary" type="submit">{t('modals.renameChannel.submit')}</button>
+        </div>
       </Form>
     </Formik>
   );

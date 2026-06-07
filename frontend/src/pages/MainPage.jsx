@@ -103,68 +103,79 @@ const MainPage = () => {
     return trimmedMessage === '' ? null : addMessageRequest(newMessage);
   };
   return (
-    <div className="container my-4">
-      <div className="row border rounded overflow-hidden">
-        <div className="col-3 bg-light p-3">
-          <div className="d-flex justify-content-between align-items-center">
-            <h2>{t('chat.channels')}</h2>
-            <button type="button" onClick={() => dispatch(openModal({ type: 'addChannel', item: null }))}>{t('buttons.add')}</button>
-            <ModalContainer />
-          </div>
-          <ul className="list-group">
-            {channels.map((channel) => (
-              <li className="list-group-item p-0 d-flex" key={channel.id}>
-                <button className="btn btn-light w-100 text-start" type="button" onClick={() => dispatch(setCurrentChannelId(channel.id))}>
-                  <span aria-hidden="true"># </span>
-                  {channel.name}
-                </button>
-                {channel.removable && (
-                <div className="dropdown">
+    <>
+      <div className="container my-4">
+        <div className="row overflow-hidden chat-layout">
+          <div className="col-3 p-3 chat-sidebar">
+            <div className="d-flex justify-content-between align-items-center">
+              <h2 className="chat-title">{t('chat.channels')}</h2>
+              <button type="button" className="btn cyber-btn-primary chat-add-btn" onClick={() => dispatch(openModal({ type: 'addChannel', item: null }))}>{t('buttons.add')}</button>
+            </div>
+            <ul className="list-group chat-channel-list">
+              {channels.map((channel) => (
+                <li className="list-group-item p-0 d-flex chat-channel-item" key={channel.id}>
                   <button
+                    className="btn w-100 text-start chat-channel-btn"
                     type="button"
-                    className="btn btn-secondary dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    aria-label={t('buttons.channelManagement')}
+                    onClick={() => dispatch(setCurrentChannelId(channel.id))}
                   >
-                    <span className="visually-hidden">{t('buttons.channelManagement')}</span>
+                    <span aria-hidden="true"># </span>
+                    {channel.name}
                   </button>
-                  <ul className="dropdown-menu">
-                    <li><button type="button" className="dropdown-item" onClick={() => dispatch(openModal({ type: 'renameChannel', item: channel }))}>{t('buttons.rename')}</button></li>
-                    <li><button type="button" className="dropdown-item" onClick={() => dispatch(openModal({ type: 'removeChannel', item: channel }))}>{t('buttons.remove')}</button></li>
-                  </ul>
-                </div>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="col p-3">
-          <h2>{t('chat.messages')}</h2>
-          <div className="d-flex flex-column gap-3">
-            {messages
-              .filter((message) => message.channelId === currentChannel)
-              .map((message) => (
-                <div className="border rounded p-3" key={message.id}>
-                  <div className="small text-muted">{message.username}</div>
-                  <div>{message.body}</div>
-                </div>
+                  {channel.removable && (
+                  <div className="dropdown chat-channel-dropdown">
+                    <button
+                      type="button"
+                      className="btn dropdown-toggle chat-channel-menu-btn"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      aria-label={t('buttons.channelManagement')}
+                    >
+                      <span className="visually-hidden">{t('buttons.channelManagement')}</span>
+                    </button>
+                    <ul className="dropdown-menu dropdown-menu-end chat-dropdown-menu">
+                      <li><button type="button" className="dropdown-item chat-dropdown-item" onClick={() => dispatch(openModal({ type: 'renameChannel', item: channel }))}>{t('buttons.rename')}</button></li>
+                      <li><button type="button" className="dropdown-item chat-dropdown-item chat-dropdown-item-danger" onClick={() => dispatch(openModal({ type: 'removeChannel', item: channel }))}>{t('buttons.remove')}</button></li>
+                    </ul>
+                  </div>
+                  )}
+                </li>
               ))}
+            </ul>
           </div>
-          <form className="d-flex gap-2 mt-3" onSubmit={sendMessage}>
-            <input
-              type="text"
-              className="form-control"
-              value={messageText}
-              placeholder={t('chat.messagePlaceholder')}
-              aria-label="Новое сообщение"
-              onChange={(input) => setMessageText(input.target.value)}
-            />
-            <button type="submit" className="btn btn-primary">{t('chat.send')}</button>
-          </form>
+          <div className="col p-3 chat-main">
+            <h2 className="chat-title">{t('chat.messages')}</h2>
+            <div className="d-flex flex-column gap-3 chat-messages-list">
+              {messages
+                .filter((message) => message.channelId === currentChannel)
+                .map((message) => {
+                  const isOwnMessage = message.username === username;
+                  return (
+                    <div className={`chat-message-row ${isOwnMessage ? 'chat-message-row-own' : 'chat-message-row-other'}`}>
+                      <div key={message.id} className={`chat-message-bubble ${isOwnMessage ? 'chat-message-bubble-own' : 'chat-message-bubble-other'}`}>
+                        <div className="chat-message-author">{message.username}</div>
+                        <div className="chat-message-body">{message.body}</div>
+                      </div>
+                    </div>
+                  )
+                })}
+            </div>
+            <form className="d-flex gap-2 mt-3 chat-form chat-form" onSubmit={sendMessage}>
+              <input
+                type="text"
+                className="form-control chat-input"
+                value={messageText}
+                placeholder={t('chat.messagePlaceholder')}
+                aria-label="Новое сообщение"
+                onChange={(input) => setMessageText(input.target.value)}
+              />
+              <button type="submit" className="btn cyber-btn-primary chat-send-btn">{t('chat.send')}</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+      <ModalContainer />
+    </>
   );
 };
 

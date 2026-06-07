@@ -10,7 +10,21 @@ const ModalContainer = () => {
     removeChannel: <RemoveChannelModal />,
     renameChannel: <RenameChannelModal />,
   };
-  return mapping[modalType] ?? null;
+
+  const currentModal = mapping[modalType] ?? null;
+  if (!currentModal) {
+    return null;
+  }
+
+  return (
+    <div className="modal show d-block" tabIndex="-1" data-testid="modal">
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content">
+          {currentModal}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ModalContainer;

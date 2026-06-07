@@ -51,12 +51,22 @@ const AddChannelModal = () => {
           });
       }}
     >
-      <Form>
-        <label htmlFor="name">{t('modals.addChannel.inputLabel')}</label>
-        <Field id="name" name="name" placeholder={t('modals.addChannel.inputLabel')} />
-        <ErrorMessage name="name" component="div" />
-        <button type="submit">{t('modals.addChannel.submit')}</button>
-        <button type="button" onClick={() => dispatch(closeModal())}>{t('modals.addChannel.cancel')}</button>
+      <Form className="cyber-modal-form">
+        <div className="cyber-modal-header">
+          <h2 className="cyber-modal-title">{t('modals.addChannel.title')}</h2>
+          <p className="cyber-modal-subtitle">Создайте новый канал для общения</p>
+        </div>
+
+        <div className="cyber-modal-body">
+          <label className="cyber-modal-label" htmlFor="name">{t('modals.addChannel.inputLabel')}</label>
+          <Field className="cyber-modal-input" id="name" name="name" placeholder={t('modals.addChannel.inputLabel')} />
+          <ErrorMessage className="cyber-modal-error" name="name" component="div" />
+        </div>
+
+        <div className="cyber-modal-footer">
+          <button className="btn cyber-btn-secondary" type="button" onClick={() => dispatch(closeModal())}>{t('modals.addChannel.cancel')}</button>
+          <button className="btn cyber-btn-primary" type="submit">{t('modals.addChannel.submit')}</button>
+        </div>
       </Form>
     </Formik>
   );
